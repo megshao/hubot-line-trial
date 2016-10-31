@@ -24,7 +24,6 @@ class Line extends Adapter
       headers: {
         'X-Line-ChannelID': @channelId,
         'X-Line-ChannelSecret': @channelSecret,
-        'X-Line-Trusted-User-With-ACL': @channelMid,
         'Content-Type': 'application/json; charset=UTF-8'
       },
       body: data
@@ -42,15 +41,11 @@ class Line extends Adapter
     @lineEndpoint = process.env.LINE_ENDPOINT_URL ? lineDefaultEP
     @channelId = process.env.LINE_CHANNEL_ID
     @channelSecret = process.env.LINE_CHANNEL_SECRET
-    @channelMid = process.env.LINE_CHANNEL_MID
     unless @channelId?
       @robot.logger.emergency "LINE_CHANNEL_ID is required"
       process.exit 1
     unless @channelSecret?
       @robot.logger.emergency "LINE_CHANNEL_SECRET is required"
-      process.exit 1
-    unless @channelMid?
-      @robot.logger.emergency "LINE_CHANNEL_MID is required"
       process.exit 1
     @robot.router.post @endpoint, (req, res) =>
       console.log("callback body: " + JSON.stringify(req.body))
